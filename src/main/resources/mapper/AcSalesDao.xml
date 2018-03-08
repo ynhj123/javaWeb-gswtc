@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanshun.dao.AcSalesDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="queryById" resultType="AcSales" parameterType="String">
+        <!-- 具体的sql -->
+        SELECT
+            acSalesKey,
+            salesKey,
+            productName,
+            number,
+            price,
+            total,
+            createDate,
+            type
+        FROM
+            AcSales
+        WHERE
+            acSalesKey = #{acSalesKey}
+    </select>
+	<insert id="insert" >    
+	    INSERT INTO AcSales(acSalesKey, salesKey,productName,number,price,total,createDate,type) 
+	    VALUES(#{acSalesKey},#{salesKey},#{productName},#{number},#{price},#{total},#{createDate},#{type})    
+	</insert>
+	<update id="update">
+        UPDATE AcSales
+        SET salesKey = #{salesKey},productName = #{productName},type=#{type},price = #{price},number = #{number},total = #{total}
+        WHERE
+            acSalesKey = #{acSalesKey}
+    </update> 
+    <delete id="delete" >
+        delete from AcSales WHERE
+            acSalesKey = #{acSalesKey}
+    </delete>
+    <select id="queryLikeById" resultType="AcSales" parameterType="String">
+        <!-- 具体的sql -->
+        SELECT
+            acSalesKey,
+            salesKey,
+            productName,
+            number,
+            price,
+            total,
+            createDate,
+            type
+        FROM
+            AcSales
+        WHERE
+            acSalesKey like #{acSalesKey}
+    </select>
+
+    <select id="queryAll" resultType="AcSales">
+        SELECT
+            acSalesKey,
+            salesKey,
+            productName,
+            number,
+            price,
+            total,
+            createDate,
+            type
+        FROM
+            AcSales
+        where salesKey = #{salesKey}
+    </select>
+    <select id="queryAllByType" resultType="AcSales" parameterType="String">
+    SELECT
+            acSalesKey,
+            salesKey,
+            productName,
+            number,
+            price,
+            total,
+            createDate,
+            type
+        FROM
+            AcSales
+        where type = #{type}
+    </select>
+     <select id="queryAllLikeType" resultType="AcSales" parameterType="String">
+        <!-- 具体的sql -->
+        SELECT
+            acSalesKey,
+            salesKey,
+            productName,
+            number,
+            price,
+            total,
+            createDate,
+            type
+        FROM
+            AcSales
+        WHERE
+            productName like #{param1}
+        And 
+        	type = #{param2}
+    </select>
+    <delete id="deletesBySalesKey" >
+        delete from AcSales WHERE
+            salesKey = #{salesKey}
+    </delete>
+    
+</mapper>

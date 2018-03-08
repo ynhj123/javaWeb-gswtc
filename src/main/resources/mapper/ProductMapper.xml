@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanshun.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.yuanshun.entity.Product">
+    <id column="productKey" jdbcType="VARCHAR" property="productkey" />
+    <result column="productName" jdbcType="VARCHAR" property="productname" />
+    <result column="cteateTime" jdbcType="VARCHAR" property="cteatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    productKey, productName, cteateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where productKey = #{productkey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from product
+    where productKey = #{productkey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yuanshun.entity.Product">
+    insert into product (productKey, productName, cteateTime
+      )
+    values (#{productkey,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, #{cteatetime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuanshun.entity.Product">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productkey != null">
+        productKey,
+      </if>
+      <if test="productname != null">
+        productName,
+      </if>
+      <if test="cteatetime != null">
+        cteateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productkey != null">
+        #{productkey,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="cteatetime != null">
+        #{cteatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuanshun.entity.Product">
+    update product
+    <set>
+      <if test="productname != null">
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="cteatetime != null">
+        cteateTime = #{cteatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productKey = #{productkey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuanshun.entity.Product">
+    update product
+    set productName = #{productname,jdbcType=VARCHAR},
+      cteateTime = #{cteatetime,jdbcType=VARCHAR}
+    where productKey = #{productkey,jdbcType=VARCHAR}
+  </update>
+   <select id="queryProductListLikeName"  parameterType="String" resultType="Product">  
+      	 SELECT productname,productkey,cteatetime  FROM product <if test="_parameter != null">
+        WHERE productname LIKE '%${_parameter}%'
+      </if>  
+  </select>
+  	<delete id="deletes" parameterType="java.util.List">
+        delete from product where productkey in 
+        <foreach  collection="deleteList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete> 
+     <select id="queryAll"  resultType="Product">  
+      	 SELECT productname,productkey,cteatetime  FROM product   order by  cteatetime desc
+	 </select> 
+</mapper>

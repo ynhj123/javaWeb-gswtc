@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanshun.dao.InventoryMapper">
+  <resultMap id="BaseResultMap" type="com.yuanshun.entity.Inventory">
+    <id column="inventroyKey" jdbcType="VARCHAR" property="inventroyKey" />
+    <result column="productKey" jdbcType="VARCHAR" property="productKey" />
+    <result column="inventroyDate" jdbcType="VARCHAR" property="inventroyDate" />
+    <result column="productInto" jdbcType="INTEGER" property="productInto" />
+    <result column="productOut" jdbcType="INTEGER" property="productOut" />
+    <result column="productNum" jdbcType="INTEGER" property="productNum" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <association property="product" javaType="Product">
+	    <id column="productKey" jdbcType="VARCHAR" property="productkey" />
+	    <result column="productName" jdbcType="VARCHAR" property="productname" />
+	    <result column="cteateTime" jdbcType="VARCHAR" property="cteatetime" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    inventroyKey, productKey, inventroyDate, productInto, productOut, productNum, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inventory
+    where inventroyKey = #{inventroyKey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from inventory
+    where inventroyKey = #{inventroyKey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yuanshun.entity.Inventory">
+    insert into inventory (inventroyKey, productKey, inventroyDate, 
+      productInto, productOut, productNum, 
+      money)
+    values (#{inventroyKey,jdbcType=VARCHAR}, #{productKey,jdbcType=VARCHAR}, #{inventroyDate,jdbcType=VARCHAR}, 
+      #{productInto,jdbcType=INTEGER}, #{productOut,jdbcType=INTEGER}, #{productNum,jdbcType=INTEGER}, 
+      #{money,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuanshun.entity.Inventory">
+    insert into inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="inventroyKey != null">
+        inventroyKey,
+      </if>
+      <if test="productKey != null">
+        productKey,
+      </if>
+      <if test="inventroyDate != null">
+        inventroyDate,
+      </if>
+      <if test="productInto != null">
+        productInto,
+      </if>
+      <if test="productOut != null">
+        productOut,
+      </if>
+      <if test="productNum != null">
+        productNum,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="inventroyKey != null">
+        #{inventroyKey,jdbcType=VARCHAR},
+      </if>
+      <if test="productKey != null">
+        #{productKey,jdbcType=VARCHAR},
+      </if>
+      <if test="inventroyDate != null">
+        #{inventroyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="productInto != null">
+        #{productInto,jdbcType=INTEGER},
+      </if>
+      <if test="productOut != null">
+        #{productOut,jdbcType=INTEGER},
+      </if>
+      <if test="productNum != null">
+        #{productNum,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="queryAll"  resultMap="BaseResultMap">  
+      	 SELECT inventory.*,product.*   FROM inventory,product  where inventory.productKey =  product.productKey  order by  product.cteatetime desc
+  </select> 
+  <select id="queryInventoryListByProductkey"  resultMap="BaseResultMap">  
+      	 SELECT inventory.*,product.*   FROM inventory,product  where inventory.productKey =  product.productKey  and inventory.productKey=#{productkey}
+  </select> 
+  <update id="update" parameterType="com.yuanshun.entity.Inventory">
+    update inventory
+    set productKey = #{productKey,jdbcType=VARCHAR},
+    	productInto = #{productInto,jdbcType=INTEGER},
+   	    productOut = #{productOut,jdbcType=INTEGER},
+    	productNum = #{productNum,jdbcType=INTEGER},
+    	money = #{money,jdbcType=DOUBLE},
+      	inventroyDate = #{inventroyDate,jdbcType=VARCHAR}
+   where inventroyKey = #{inventroyKey,jdbcType=VARCHAR}
+  </update>
+  <select id="getInventoryByProductName"  resultMap="BaseResultMap">  
+      	 SELECT inventory.*,product.*   FROM inventory,product  where inventory.productKey =  product.productKey  and inventory.productKey= (select product.productKey from product where product.productName = #{productname})
+  </select> 
+  	
+</mapper>

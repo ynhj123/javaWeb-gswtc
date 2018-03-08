@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanshun.dao.UserMapper">
+  <insert id="insert" parameterType="com.yuanshun.entity.User">
+    insert into user (userKey, userPhone, userAddress, 
+      createTime)
+    values (#{userkey,jdbcType=VARCHAR}, #{userphone,jdbcType=VARCHAR}, #{useraddress,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuanshun.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userkey != null">
+        userKey,
+      </if>
+      <if test="userphone != null">
+        userPhone,
+      </if>
+      <if test="useraddress != null">
+        userAddress,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userkey != null">
+        #{userkey,jdbcType=VARCHAR},
+      </if>
+      <if test="userphone != null">
+        #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="useraddress != null">
+        #{useraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+	 <select id="queryUserListLikeName" parameterType="String" resultType="User">  
+      	 SELECT userkey,userphone,useraddress,createtime FROM user <if test="userphone != null">
+        WHERE userphone LIKE '%${userphone}%'
+      </if>  
+	 </select>  
+	 <select id="queryAll"  resultType="User">  
+      	 SELECT userkey,userphone,useraddress,createtime FROM user   order by CAST(userphone as SIGNED) 
+	 </select>
+	 <update id="update">
+        UPDATE user
+        SET userphone = #{userphone},useraddress = #{useraddress}
+        WHERE
+            userkey = #{userkey}
+    </update>  
+     <delete id="deletes" parameterType="java.util.List">
+        delete from user where userkey in 
+        <foreach  collection="deleteList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="queryByPhone"  resultType="User">  
+      	 SELECT userkey,userphone,useraddress,createtime FROM user where  userphone = #{phone}  
+	 </select>
+</mapper>

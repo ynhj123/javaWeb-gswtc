@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuanshun.dao.SalesDao">
+   <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="queryById" resultType="Sales" parameterType="String">
+        <!-- 具体的sql -->
+        SELECT
+            salesKey,
+            phone,
+            address,
+            type,
+            state,
+            price,
+            sendTime,
+            createDate
+        FROM
+            Sales
+        WHERE
+            salesKey = #{salesKey}
+    </select>
+	<insert id="insert" >    
+	    INSERT INTO sales(salesKey, phone,address,type,state,price,sendTime,createDate) 
+	    VALUES(#{salesKey},#{phone},#{address},#{type},#{state},#{price},#{sendTime},#{createDate})    
+	</insert>
+	<update id="update">
+        UPDATE Sales
+        SET phone = #{phone},address = #{address},type = #{type},state = #{state},price = #{price},sendTime = #{sendTime}
+        WHERE
+            salesKey = #{salesKey}
+    </update> 
+    <delete id="delete" >
+        delete from Sales WHERE
+            salesKey = #{salesKey}
+    </delete>
+    <select id="queryLikeByPhone" resultType="Sales" parameterType="String">
+        <!-- 具体的sql -->
+        SELECT
+            salesKey,
+            phone,
+            address,
+            type,
+            state,
+            price,
+            sendTime,
+            createDate
+        FROM
+            Sales
+        WHERE
+            phone like #{phone}
+            ORDER BY
+            createDate 
+    </select>
+
+    <select id="queryAll" resultType="sales">
+        SELECT
+            salesKey,
+            phone,
+            address,
+            type,
+            state,
+            price,
+            sendTime,
+            createDate
+        FROM
+            Sales
+        ORDER BY
+            createDate 
+    </select>
+    <update id="updateSate">
+        UPDATE Sales
+        SET state = '1'
+        WHERE
+            salesKey = #{id}
+    </update> 
+</mapper>
