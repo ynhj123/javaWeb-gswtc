@@ -1,12 +1,16 @@
 package com.yuanshun.enums;
 
-public enum SalesStateEnum
-{
-  COLLECT, RECEIVED;
+public enum SalesStateEnum {
+  COLLECT(0,"0"), RECEIVED(1,"1");
 
   private int state;
   private String stateInfo;
-
+  
+  private SalesStateEnum(int state,String stateInfo) {
+	  this.state = state;
+	  this.stateInfo = stateInfo;
+  }
+  
   public int getState()
   {
     return this.state; }

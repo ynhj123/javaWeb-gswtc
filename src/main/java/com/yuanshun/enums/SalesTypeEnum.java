@@ -2,11 +2,16 @@ package com.yuanshun.enums;
 
 public enum SalesTypeEnum
 {
-  RETAIL, WHOLESALE, Welfare;
-
+	RETAIL(1,"001"), WHOLESALE(2,"002"), Welfare(3,"003");
+	
+	
   private int type;
   private String typeInfo;
-
+  
+  private SalesTypeEnum(int type,String typeInfo) {
+	  this.type = type;
+	  this.typeInfo = typeInfo;
+  }
   public int getType()
   {
     return this.type; }

@@ -67,7 +67,7 @@
 	  layer.open({
 		   type: 1
 		   ,title: '销售'
-		   ,area: '500px'
+		   ,offset: 't'
 		   ,content: $('#acsalesAddTab') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
 		   ,btn: ['提交'] 
 	   	   ,yes:function() {
